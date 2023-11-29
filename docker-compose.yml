@@ -1,6 +1,8 @@
 version: "2"
 services:
   kerberos:
+    ports:
+      - 88:88/udp
     container_name: kerberos.example
     hostname: kerberos.example.com
     entrypoint: /start-kdc.sh
@@ -11,10 +13,10 @@ services:
         - https_proxy
     volumes:
       - server-keytab:/var/keytabs
-
   nn:
     ports:
       - 9000:9000
+      - 50470:50470
     container_name: nn.example
     hostname: nn.example.com
     user: hdfs
@@ -27,7 +29,6 @@ services:
     volumes:
       - server-keytab:/var/keytabs
       - /hadoop
-
   dn1:
     container_name: dn1.example
     hostname: dn1.example.com
@@ -40,7 +41,6 @@ services:
         - https_proxy
     volumes:
       - server-keytab:/var/keytabs
-
   data-populator:
     container_name: data-populator.example
     hostname: data-populator.example.com
@@ -53,11 +53,9 @@ services:
         - https_proxy
     volumes:
       - server-keytab:/var/keytabs
-
 networks:
   default:
-    external:
-      name: com
-
+    name: com
+    external: true
 volumes:
   server-keytab:

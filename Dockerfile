@@ -8,11 +8,14 @@ RUN yum install telnet telnet-server -y
 RUN yum -y install which
 
 RUN sed -i -e 's/#//' -e 's/default_ccache_name/# default_ccache_name/' /etc/krb5.conf
+RUN sed -i -e 's/renew_lifetime/# renew_lifetime/' /etc/krb5.conf
 
 RUN useradd -u 1098 hdfs
 
-ADD hadoop-2.7.3.tar.gz /
-RUN ln -s hadoop-2.7.3 hadoop
+# ADD hadoop-2.7.3.tar.gz /
+# RUN ln -s hadoop-2.7.3 hadoop
+ADD hadoop-2.10.1.tar.gz /
+RUN ln -s hadoop-2.10.1 hadoop
 RUN chown -R -L hdfs /hadoop
 
 
